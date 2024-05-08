@@ -37,12 +37,9 @@ class CookYearsOfExperienceUpdateForm(forms.ModelForm):
         return validate_years_of_experience(self.cleaned_data["years_of_experience"])
 
 
-def validate_years_of_experience(
-    years_of_experience,
-):
-    if years_of_experience.isalpha():
+def validate_years_of_experience(years_of_experience):
+    if not str(years_of_experience).isdigit():
         raise ValidationError("Only digits are allowed.")
-
     return years_of_experience
 
 

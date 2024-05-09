@@ -35,4 +35,4 @@ class Dish(models.Model):
     cooks = models.ManyToManyField(Cook, related_name="dishes")
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.price}, {self.dish_type}, {self.description})"

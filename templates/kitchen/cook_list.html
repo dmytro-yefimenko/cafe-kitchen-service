@@ -1,40 +1,74 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
 {% load crispy_forms_filters %}
 
 {% block content %}
-    <h1>
-      Cook List
-      <a href="{% url 'kitchen:cook-create' %}" class="btn btn-primary link-to-page">
-        Create
-      </a>
-    </h1>
+  {% include 'includes/navigation.html' %}
+  <header class="header-2">
+    <div class="page-header min-vh-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/bg2.jpg')">
+      <span class="mask bg-gradient-primary opacity-4"></span>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">List of all cooks</h1>
+            <p class="lead text-white mt-3">Below you can find a list of all chefs in the system </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-  <form method="get" action="" class="form-inline">
-    {{ search_form|crispy }}
-    <input class="btn btn-secondary" type="submit" value="🔍">
-  </form>
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 text-center">
+    <section class="pt-3 pb-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-9 mx-auto py-3">
+            <!-- Search Bar with Background Color -->
+            <div class="row">
+              <div class="add_new_chef">
+                <a href="{% url 'kitchen:cook-create' %}" class="btn btn-primary link-to-page">Add new chef</a>
+              </div>
+              <div class="col-lg-6 mx-auto py-3" id="search_field">
+                <form method="get" action="" class="form-inline bg-light">
+                  {{ search_form|crispy }}
+                </form>
+              </div>
+            </div>
+            <div class="p-3 text-center">
+              {% if cook_list %}
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col" class="text-gradient text-primary">Username</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Years of experience</th>
+                  </tr>
+                  </thead>
+                  {% for cook in cook_list %}
+                    <tbody>
+                    <tr>
+                      <td>{{ cook.id }}</td>
+                      <td><a href="{{ cook.get_absolute_url }}" target=”_blank”> {{ cook.username }} {% if user == cook %}
+                        (Me){% endif %}</a></td>
+                      <td>{{ cook.first_name }}</td>
+                      <td>{{ cook.last_name }}</td>
+                      <td>{{ cook.years_of_experience }}</td>
+                    </tr>
+                    </tbody>
+                  {% endfor %}
+                </table>
+              {% else %}
+                <p>There are no cooks yet!</p>
+              {% endif %}
+              {% block pagination %}
+                {% include "includes/pagination.html" %}
+              {% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 
-    {% if cook_list %}
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Years of experience</th>
-      </tr>
-    {% for cook in cook_list %}
-      <tr>
-        <td>{{ cook.id }}</td>
-        <td><a href="{{ cook.get_absolute_url }}">{{ cook.username }} {% if user == cook %} (Me){% endif %}</a></td>
-        <td>{{ cook.first_name }}</td>
-        <td>{{ cook.last_name }}</td>
-        <td>{{ cook.years_of_experience }}</td>
-      </tr>
-    {% endfor %}
-
-    </table>
-    {% else %}
-      <p>There are no cooks yet!</p>
-    {% endif %}
-{% endblock %}
+{% endblock content %}

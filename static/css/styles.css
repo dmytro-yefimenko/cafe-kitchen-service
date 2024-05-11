@@ -6,3 +6,15 @@ body {
     float: right;
     margin: 0 2px 0 2px;
 }
+
+.input-wrapper {
+    display: flex;
+}
+
+.input-wrapper input,
+.input-wrapper textarea,
+.input-wrapper select {
+    flex: 1;
+    /* This will make all input fields take up equal space */
+}
+

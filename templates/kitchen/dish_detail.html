@@ -1,35 +1,75 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
+{% load crispy_forms_filters %}
 
 {% block content %}
-  <h1>
-    {{ dish.name }}
-    <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-danger link-to-page">
-      Delete
-    </a>
+  {% include 'includes/navigation.html' %}
+  <header class="header-2">
+    <div class="page-header min-vh-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/bg2.jpg')">
+      <span class="mask bg-gradient-primary opacity-4"></span>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">
+              Dish name: {{ dish.name }}
+            </h1>
+            <p class="lead text-white mt-3">
+              <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-danger link-to-page">
+                Delete
+              </a>
 
-    <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-secondary link-to-page">
-      Update
-    </a>
-  </h1>
-  <p>Dish Type: ({{ dish.dish_type.name }}, ${{ dish.price }})</p>
-  <h1>
-    Cooks
+              <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-secondary link-to-page">
+                Update
+              </a>
 
-    {% if dish in user.dishes.all %}
-      <a href="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" class="btn btn-danger link-to-page">
-        Delete me from this dish
-      </a>
-    {% else %}
-      <a href="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" class="btn btn-success link-to-page">
-        Assign me to this dish
-      </a>
-    {% endif %}
+              {% if dish in user.dishes.all %}
+                <a href="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" class="btn btn-warning link-to-page">
+                  Remove me from this dish
+                </a>
+              {% else %}
+                <a href="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" class="btn btn-success link-to-page">
+                  Assign me to this dish
+                </a>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 text-center">
+    <section class="pt-3 pb-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-9 mx-auto py-3">
+            <div class="row">
+              <div class="back-to-cook-list">
+                <a href="{% url 'kitchen:dish-list' %}" class="btn btn-primary link-to-page">⬅ Back to the list</a>
+              </div>
+            </div>
+            <div class="p-3 text-center">
+              <h4>Info</h4>
+              <p><strong>Dish type:</strong> {{ dish.dish_type }}</p>
+              <p><strong>Price:</strong> {{ dish.price }}</p>
 
-  </h1>
-  <hr>
-  <ul>
-    {% for cook in dish.cooks.all %}
-      <li>{{ cook.username }} ({{ cook.first_name }} {{ cook.last_name }})</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+              <div class="ml-3">
+                <br>
+                <h4>Cooks</h4>
+
+                {% for cook in dish.cooks.all %}
+                  <hr>
+                  <p><strong>Username:</strong> {{ cook.username }}</p>
+                  <p><strong>First Name:</strong> {{ cook.first_name }}</p>
+                  <p><strong>Last Name:</strong> {{ cook.last_name }}</p>
+
+                {% empty %}
+                  <p>No Cooks!</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+{% endblock content %}

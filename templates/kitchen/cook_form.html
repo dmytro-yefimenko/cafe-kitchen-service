@@ -21,14 +21,18 @@
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
                 <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
-                  Cook creation
+                  {{ object|yesno:"Update,Create" }} a cook
                 </h4>
                 <div class="row mt-3">
                   <p class="mb-0 text-white text-center">
                     {% if msg %}
                       {{ msg | safe }}
                     {% else %}
-                      Fill out the form below to create a new chef
+                      {% if not object|yesno:"Update" %}
+                        Fill out the form below to create a new chef
+                        {% else %}
+                        Change the years of experience below
+                      {% endif %}
                     {% endif %}
                   </p>
                 </div>
@@ -42,13 +46,15 @@
 
                   {% csrf_token %}
 
-                  <div class="mb-3">
-                    <label for="username" class="form-label">Username*</label>
-                    <div class="input-wrapper">
-                      {{ form.username }}
-                      <span class="text-danger">{{ form.username.errors }}</span>
+                  {% if not object|yesno:"Update" %}
+                    <div class="mb-3">
+                      <label for="username" class="form-label">Username*</label>
+                      <div class="input-wrapper">
+                        {{ form.username }}
+                        <span class="text-danger">{{ form.username.errors }}</span>
+                      </div>
                     </div>
-                  </div>
+                  {% endif %}
 
                   <div class="mb-3">
                     <label for="years_of_experience" class="form-label">Years of experience*</label>
@@ -58,53 +64,65 @@
                     </div>
                   </div>
 
-                  <div class="mb-3">
-                    <label for="first_name" class="form-label">First Name</label>
-                    <div class="input-wrapper">
-                      {{ form.first_name }}
-                      <span class="text-danger">{{ form.first_name.errors }}</span>
+                  {% if not object|yesno:"Update" %}
+                    <div class="mb-3">
+                      <label for="first_name" class="form-label">First Name</label>
+                      <div class="input-wrapper">
+                        {{ form.first_name }}
+                        <span class="text-danger">{{ form.first_name.errors }}</span>
+                      </div>
                     </div>
-                  </div>
+                  {% endif %}
 
-                  <div class="mb-3">
-                    <label for="last_name" class="form-label">Last Name</label>
-                    <div class="input-wrapper">
-                      {{ form.last_name }}
-                      <span class="text-danger">{{ form.last_name.errors }}</span>
+                  {% if not object|yesno:"Update" %}
+                    <div class="mb-3">
+                      <label for="last_name" class="form-label">Last Name</label>
+                      <div class="input-wrapper">
+                        {{ form.last_name }}
+                        <span class="text-danger">{{ form.last_name.errors }}</span>
+                      </div>
                     </div>
-                  </div>
+                  {% endif %}
 
-                  <div class="mb-3">
-                    <label for="password1" class="form-label">Password*</label>
-                    <div class="input-wrapper">
-                      {{ form.password1 }}
-                      <span class="text-danger">{{ form.password1.errors }}</span>
+                  {% if not object|yesno:"Update" %}
+                    <div class="mb-3">
+                      <label for="password1" class="form-label">Password*</label>
+                      <div class="input-wrapper">
+                        {{ form.password1 }}
+                        <span class="text-danger">{{ form.password1.errors }}</span>
+                      </div>
                     </div>
-                  </div>
+                  {% endif %}
 
-                  <div class="mb-3">
-                    <label for="password2" class="form-label">Password confirmation*</label>
-                    <div class="input-wrapper">
-                      {{ form.password2 }}
-                      <span class="text-danger">{{ form.password2.errors }}</span>
+                  {% if not object|yesno:"Update" %}
+                    <div class="mb-3">
+                      <label for="password2" class="form-label">Password confirmation*</label>
+                      <div class="input-wrapper">
+                        {{ form.password2 }}
+                        <span class="text-danger">{{ form.password2.errors }}</span>
+                      </div>
                     </div>
-                  </div>
+                  {% endif %}
 
-                  <div class="form-check form-check-info text-start ps-0 mb-3">
-                    <input class="form-check-input" type="checkbox" value="" id="termsCheckbox" checked>
-                    <label class="form-check-label" for="termsCheckbox">
-                      I agree the <a href="#" class="text-dark font-weight-bolder">Terms and Conditions</a>
-                    </label>
-                  </div>
+                  {% if not object|yesno:"Update" %}
+                    <div class="form-check form-check-info text-start ps-0 mb-3">
+                      <input class="form-check-input" type="checkbox" value="" id="termsCheckbox" checked>
+                      <label class="form-check-label" for="termsCheckbox">
+                        I agree the <a href="#" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                      </label>
+                    </div>
+                  {% endif %}
                   <div class="text-center">
                     <button type="submit" name="register"
-                            class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Create
+                            class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">{{ object|yesno:"Update,Create" }}
                     </button>
                   </div>
-                  <p class="mt-4 text-sm text-center">
-                    Already have an account?
-                    <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">Sign In</a>
-                  </p>
+                  {% if not object|yesno:"Update" %}
+                    <p class="mt-4 text-sm text-center">
+                      Already have an account?
+                      <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">Sign In</a>
+                    </p>
+                  {% endif %}
                 </form>
 
               {% else %}
@@ -121,24 +139,22 @@
       </div>
     </div>
 
-    {% include 'includes/footer-auth.html' %}
-
   </div>
 
   <!-- JavaScript validation -->
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.querySelector('#signupForm');
+      document.addEventListener('DOMContentLoaded', function () {
+          const form = document.querySelector('#signupForm');
 
-      form.addEventListener('submit', function (event) {
-        const termsCheckbox = document.getElementById('termsCheckbox');
+          form.addEventListener('submit', function (event) {
+              const termsCheckbox = document.getElementById('termsCheckbox');
 
-        if (!termsCheckbox.checked) {
-          alert('Please agree to the Terms and Conditions');
-          event.preventDefault(); // Prevent form submission
-        }
+              if (!termsCheckbox.checked) {
+                  alert('Please agree to the Terms and Conditions');
+                  event.preventDefault(); // Prevent form submission
+              }
+          });
       });
-    });
   </script>
 
 {% endblock content %}

@@ -49,8 +49,9 @@
                     <tbody>
                     <tr>
                       <td>{{ cook.id }}</td>
-                      <td><a href="{{ cook.get_absolute_url }}" target=”_blank”> {{ cook.username }} {% if user == cook %}
-                        (Me){% endif %}</a></td>
+                      <td><a href="{{ cook.get_absolute_url }}" target=”_blank”> {{ cook.username }}
+                        {% if user == cook %}
+                          (Me){% endif %}</a></td>
                       <td>{{ cook.first_name }}</td>
                       <td>{{ cook.last_name }}</td>
                       <td>{{ cook.years_of_experience }}</td>
@@ -61,9 +62,11 @@
               {% else %}
                 <p>There are no cooks yet!</p>
               {% endif %}
+
               {% block pagination %}
                 {% include "includes/pagination.html" %}
               {% endblock %}
+
             </div>
           </div>
         </div>

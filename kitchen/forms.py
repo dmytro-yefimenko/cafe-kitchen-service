@@ -67,6 +67,9 @@ class DishForm(forms.ModelForm):
             "dish_type",
             "cooks",
         )
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 5, "cols": 21}),
+        }
 
 
 class DishSearchForm(forms.Form):

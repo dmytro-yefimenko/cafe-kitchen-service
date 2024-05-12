@@ -17,3 +17,19 @@ body {
     flex: 1;
     /* This will make all input fields take up equal space */
 }
+
+.text-center {
+  text-align: center;
+}
+
+.input-wrapper, .form-label {
+  display: flex;
+  justify-content: center;
+}
+
+/* Center the checkbox and text */
+.form-check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

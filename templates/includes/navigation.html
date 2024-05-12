@@ -6,8 +6,9 @@
           class="navbar navbar-expand-lg  blur border-radius-xl mt-4 top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
         <div class="container-fluid px-0">
           <a class="navbar-brand font-weight-bolder ms-sm-3" href="/" rel="tooltip"
-             title="Designed and Coded by Creative Tim" data-placement="bottom">
-
+             data-placement="bottom">
+            <img src="{{ ASSETS_ROOT }}/img/logos/gray-logos/homepage.png" alt="Homepage Image"
+                 style="max-height: 25px; opacity: 0.65;">
           </a>
           <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
                   data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
@@ -53,7 +54,7 @@
                 <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuDocs"
                    data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="material-icons opacity-6 me-2 text-md">article</i>
-                  Help
+                  Info
                   <img src="{{ ASSETS_ROOT }}/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-auto ms-md-2">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-animation dropdown-md dropdown-md-responsive mt-0 mt-lg-3 p-3 border-radius-lg"
@@ -62,10 +63,10 @@
                     <ul class="list-group">
                       <li class="nav-item list-group-item border-0 p-0">
                         <a class="dropdown-item py-2 ps-3 border-radius-md"
-                           href="#">
+                           href="mailto:dmytro@yefimenko.uk">
                           <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
-                            Support</h6>
-                          <span class="text-sm">Get support from experts</span>
+                            Contact</h6>
+                          <span class="text-sm">You can contact me via email</span>
                         </a>
                       </li>
                     </ul>
@@ -94,13 +95,16 @@
                           </a>
                         </li>
                         <hr>
-                        <li class="nav-item list-group-item border-0 p-0">
-                          <a class="dropdown-item py-2 ps-3 border-radius-md" target="_blank" href="{% url 'logout' %}">
-                            <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-start align-items-center p-0">
-                              Log Out <i class="fa fa-sign-out ms-1"></i>
-                            </h6>
-                          </a>
-                        </li>
+                        <form id="logout-form" action="{% url 'logout' %}" method="post">
+                          {% csrf_token %}
+                          <li class="nav-item list-group-item border-0 p-0">
+                            <button type="submit" class="dropdown-item py-2 ps-3 border-radius-md">
+                              <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-start align-items-center p-0">
+                                Log Out <i class="fa fa-sign-out ms-1"></i>
+                              </h6>
+                            </button>
+                          </li>
+                        </form>
                       </ul>
                     </div>
                   </ul>

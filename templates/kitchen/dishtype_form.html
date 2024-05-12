@@ -59,6 +59,10 @@
                             class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">{{ object|yesno:"Update,Create" }}
                     </button>
                   </div>
+                  <p class="mt-4 text-sm text-center">
+                    <a href="{% url 'kitchen:dish-type-list' %}" class="text-primary text-gradient font-weight-bold">⬅ Back
+                      to the list</a>
+                  </p>
                 </form>
 
               {% endif %}

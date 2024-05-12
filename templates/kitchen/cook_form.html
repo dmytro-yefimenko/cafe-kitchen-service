@@ -119,8 +119,7 @@
                   </div>
                   {% if not object|yesno:"Update" %}
                     <p class="mt-4 text-sm text-center">
-                      Already have an account?
-                      <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">Sign In</a>
+                      <a href="{% url 'kitchen:cook-list' %}" class="text-primary text-gradient font-weight-bold">⬅ Back to the list</a>
                     </p>
                   {% endif %}
                 </form>

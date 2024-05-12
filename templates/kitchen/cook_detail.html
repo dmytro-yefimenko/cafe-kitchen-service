@@ -12,7 +12,11 @@
         <div class="row">
           <div class="col-lg-7 text-center mx-auto">
             <h1 class="text-white pt-3 mt-n5">
-              Chef name: {{ cook.first_name }} {{ cook.last_name }}
+              {% if cook.first_name %}
+                Chef name: {{ cook.first_name }} {{ cook.last_name }}
+              {% else %}
+                My Personal page
+              {% endif %}
             </h1>
             <p class="lead text-white mt-3">
               <a href="{% url 'kitchen:cook-delete' pk=cook.id %}" class="btn btn-danger link-to-page">

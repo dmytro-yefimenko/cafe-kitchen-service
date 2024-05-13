@@ -24,13 +24,19 @@
               </a>
 
               {% if dish in user.dishes.all %}
-                <a href="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" class="btn btn-warning link-to-page">
-                  Remove me from this dish
-                </a>
+                <form action="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-warning link-to-page" name="action" value="remove">
+                    Remove me from this dish
+                  </button>
+                </form>
               {% else %}
-                <a href="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" class="btn btn-success link-to-page">
-                  Assign me to this dish
-                </a>
+                <form action="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success link-to-page" name="action" value="assign">
+                    Assign me to this dish
+                  </button>
+                </form>
               {% endif %}
             </p>
           </div>
@@ -38,7 +44,7 @@
       </div>
     </div>
   </header>
-  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 text-center">
+  <div class="card card-body blur shadow-blur mx-3 mx-md-8 mt-n6 text-center">
     <section class="pt-3 pb-4">
       <div class="container">
         <div class="row">

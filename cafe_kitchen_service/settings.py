@@ -34,7 +34,7 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 # Assets Management
 ASSETS_ROOT = "/static/assets"
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "http://localhost:8000", "https://localhost:8000"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "http://localhost:8000", "https://localhost:8000", "https://cafe-kitchen-service.onrender.com"]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1']
 
 

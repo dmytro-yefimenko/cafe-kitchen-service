@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -62,6 +63,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "cafe_kitchen_service.urls"
+LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "login"
 
 TEMPLATES = [
@@ -96,6 +98,8 @@ DATABASES = {
     }
 }
 
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES["default"].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -116,8 +120,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "kitchen.Cook"
-
-LOGIN_REDIRECT_URL = "/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

@@ -1,0 +1,35 @@
+body {
+    margin-top: 20px;
+}
+
+.link-to-page {
+    float: right;
+    margin: 0 2px 0 2px;
+}
+
+.input-wrapper {
+    display: flex;
+}
+
+.input-wrapper input,
+.input-wrapper textarea,
+.input-wrapper select {
+    flex: 1;
+    /* This will make all input fields take up equal space */
+}
+
+.text-center {
+  text-align: center;
+}
+
+.input-wrapper, .form-label {
+  display: flex;
+  justify-content: center;
+}
+
+/* Center the checkbox and text */
+.form-check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

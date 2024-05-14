@@ -1,0 +1,85 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %} All dish types {% endblock %}
+
+{% block content %}
+  {% include 'includes/navigation.html' %}
+  <header class="header-2">
+    <div class="page-header min-vh-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/bg11.jpg')">
+      <span class="mask bg-gradient-primary opacity-4"></span>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">List of all dish types</h1>
+            <p class="lead text-white mt-3">Below you can find a list of all dish types </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="card card-body blur shadow-blur mx-3 mx-md-8 mt-n6 text-center">
+    <section class="pt-3 pb-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-9 mx-auto py-3">
+            <!-- Search Bar with Background Color -->
+            <div class="row">
+              <div class="add_new_chef">
+                <a href="{% url 'kitchen:dish-type-create' %}" class="btn btn-primary link-to-page">Add new dish
+                  type</a>
+              </div>
+              <div class="col-lg-6 mx-auto py-3" id="search_field">
+                <form method="get" action="" class="form-inline bg-light">
+                  {{ search_form|crispy }}
+                </form>
+              </div>
+            </div>
+            <div class="p-3 text-center">
+              {% if dish_type_list %}
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                  </thead>
+                  {% for dish_type in dish_type_list %}
+                    <tbody>
+                    <tr>
+                      <td>{{ dish_type.id }}</td>
+                      <td>{{ dish_type.name }}
+                      <td>
+                        <a class="dish-type-update" style=""
+                           href="{% url 'kitchen:dish-type-update' pk=dish_type.id %}">
+                          Update
+                        </a>
+                      </td>
+                      <td>
+                        <a href="{% url 'kitchen:dish-type-delete' pk=dish_type.id %}">
+                          Delete
+                        </a>
+                      </td>
+                    </tr>
+                    </tbody>
+                  {% endfor %}
+                </table>
+              {% else %}
+                <p>There are no dish types yet!</p>
+              {% endif %}
+
+              {% block pagination %}
+                {% include "includes/pagination.html" %}
+              {% endblock %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+{% endblock content %}

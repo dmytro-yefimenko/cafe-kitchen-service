@@ -3,7 +3,7 @@ black==24.4.2
 bootstrap4==0.1.0
 click==8.1.7
 dj-database-url
-Django==4.2.13
+Django==5.0.6
 django-crispy-forms==1.14.0
 django-debug-toolbar
 django-registration==2.2

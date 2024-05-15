@@ -65,7 +65,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "cafe_kitchen_service.urls"
 LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "login"
+LOGOUT_REDIRECT_URL = "/"
 
 TEMPLATES = [
     {

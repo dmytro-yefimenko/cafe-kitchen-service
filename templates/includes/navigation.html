@@ -109,7 +109,20 @@
                     </div>
                   </ul>
                 </li>
+
+              {% else %}
+
+                <form id="login-form" action="{% url 'login' %}" method="post">
+                  {% csrf_token %}
+                    <button type="submit" class="dropdown-item py-2 ps-3 border-radius-md btn-primary">
+                      <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-start align-items-center p-0">
+                        Log In <i class="fa fa-sign-in ms-1"></i>
+                      </h6>
+                    </button>
+                </form>
+
               {% endif %}
+
             </ul>
           </div>
         </div>

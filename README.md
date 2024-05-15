@@ -27,3 +27,9 @@ python manage.py runserver  # runs Django server
 * Authentication functionality for Chef/User
 * Creating and updating dishes and dish types. Setting the price and description for them
 * Managing chefs and keeping track of who can cook what dish
+
+
+## Admin credentials
+> username: admin
+>
+> password: 1!Password1!

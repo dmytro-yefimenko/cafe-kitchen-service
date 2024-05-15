@@ -16,8 +16,11 @@
             </h1>
             <form action="" method="post">
               {% csrf_token %}
-
-              <input type="submit" value="Yes" class="btn btn-danger">
+              {% if is_admin %}
+                <input type="submit" value="Yes" class="btn btn-danger">
+              {% else %}
+                <input type="submit" value="Yes" class="btn btn-danger" id="delete-dish-type-btn">
+              {% endif %}
             </form>
           </div>
         </div>
@@ -32,7 +35,7 @@
           <div class="col-lg-9 mx-auto py-3">
             <div class="row">
               <div class="back-to-cook-list">
-                <a href="{% url 'kitchen:cook-list' %}" class="btn btn-primary link-to-page">⬅ Back to the list</a>
+                <a href="{% url 'kitchen:dish-type-list' %}" class="btn btn-primary link-to-page">⬅ Back to the list</a>
               </div>
             </div>
           </div>
@@ -41,4 +44,16 @@
     </section>
   </div>
 
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          var addDishBtn = document.getElementById("delete-dish-type-btn");
+          if (addDishBtn) {
+              addDishBtn.addEventListener("click", function (event) {
+                  event.preventDefault();
+                  alert("Action denied: You do not have the necessary permissions to delete a dish type.");
+              });
+          }
+      });
+  </script>
+  
 {% endblock content %}

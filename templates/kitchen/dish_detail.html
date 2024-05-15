@@ -15,13 +15,13 @@
               Dish name: {{ dish.name }}
             </h1>
             <p class="lead text-white mt-3">
-              <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-danger link-to-page">
-                Delete
-              </a>
+              {% if is_admin %}
+                <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-danger link-to-page">Delete</a>
+              {% else %}
+                <a href="#" class="btn btn-danger link-to-page" id="delete-dish-btn">Delete</a>
+              {% endif %}
 
-              <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-secondary link-to-page">
-                Update
-              </a>
+              <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-secondary link-to-page">Update</a>
 
               {% if dish in user.dishes.all %}
                 <form action="{% url 'kitchen:toggle-dish-assign' pk=dish.id %}" method="post">
@@ -80,5 +80,18 @@
       </div>
     </section>
   </div>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          var addDishBtn = document.getElementById("delete-dish-btn");
+          if (addDishBtn) {
+              addDishBtn.addEventListener("click", function (event) {
+                  event.preventDefault();
+                  alert("Action denied: You do not have the necessary permissions to delete a dish.");
+              });
+          }
+      });
+  </script>
+
 
 {% endblock content %}

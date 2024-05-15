@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.core.exceptions import PermissionDenied
 
 from .models import DishType, Cook, Dish
 from .forms import (
@@ -34,6 +35,15 @@ def index(request):
     return render(request, "kitchen/index.html", context=context)
 
 
+class AdminRequiredMixin:
+    """Verify that the current user is an admin."""
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+
 class DishTypeListView(generic.ListView):
     model = DishType
     context_object_name = "dish_type_list"
@@ -46,6 +56,7 @@ class DishTypeListView(generic.ListView):
         context["search_form"] = DishTypeSearchForm(
             initial={"name": name}
         )
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
 
         return context
 
@@ -62,16 +73,31 @@ class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
     fields = "__all__"
     success_url = reverse_lazy("kitchen:dish-type-list")
 
+    def get_context_data(self, **kwargs):
+        context = super(DishTypeCreateView, self).get_context_data(**kwargs)
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
+        return context
+
 
 class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = DishType
     fields = "__all__"
     success_url = reverse_lazy("kitchen:dish-type-list")
 
+    def get_context_data(self, **kwargs):
+        context = super(DishTypeUpdateView, self).get_context_data(**kwargs)
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
+        return context
+
 
 class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = DishType
     success_url = reverse_lazy("kitchen:dish-type-list")
+
+    def get_context_data(self, **kwargs):
+        context = super(DishTypeDeleteView, self).get_context_data(**kwargs)
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
+        return context
 
 
 class CookListView(generic.ListView):
@@ -84,6 +110,7 @@ class CookListView(generic.ListView):
         context["search_form"] = CookSearchForm(
             initial={"username": username}
         )
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
         return context
 
     def get_queryset(self):
@@ -106,16 +133,31 @@ class CookCreateView(LoginRequiredMixin, generic.CreateView):
     model = Cook
     form_class = CookCreationForm
 
+    def get_context_data(self, **kwargs):
+        context = super(CookCreateView, self).get_context_data(**kwargs)
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
+        return context
+
 
 class CookYearsOfExperienceUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Cook
     form_class = CookYearsOfExperienceUpdateForm
     success_url = reverse_lazy("kitchen:cook-list")
 
+    def get_context_data(self, **kwargs):
+        context = super(CookYearsOfExperienceUpdateView, self).get_context_data(**kwargs)
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
+        return context
+
 
 class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Cook
     success_url = reverse_lazy("kitchen:cook-list")
+
+    def get_context_data(self, **kwargs):
+        context = super(CookDeleteView, self).get_context_data(**kwargs)
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
+        return context
 
 
 class DishListView(generic.ListView):
@@ -125,19 +167,15 @@ class DishListView(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
-        context["search_form"] = DishSearchForm(
-            initial={"name": name}
-        )
-
+        context["search_form"] = DishSearchForm(initial={"name": name})
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
         return context
 
     def get_queryset(self):
         queryset = Dish.objects.select_related("dish_type")
         form = DishSearchForm(self.request.GET)
         if form.is_valid():
-            return queryset.filter(
-                name__icontains=form.cleaned_data["name"]
-            )
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
         return queryset
 
 
@@ -149,6 +187,11 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
     model = Dish
     form_class = DishForm
     success_url = reverse_lazy("kitchen:dish-list")
+
+    def get_context_data(self, **kwargs):
+        context = super(DishCreateView, self).get_context_data(**kwargs)
+        context["is_admin"] = self.request.user.is_staff  # Pass admin status to the template
+        return context
 
 
 class DishUpdateView(LoginRequiredMixin, generic.UpdateView):

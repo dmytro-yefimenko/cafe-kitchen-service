@@ -59,9 +59,15 @@
                         </a>
                       </td>
                       <td>
-                        <a href="{% url 'kitchen:dish-type-delete' pk=dish_type.id %}">
-                          Delete
-                        </a>
+                        {% if is_admin %}
+                          <a href="{% url 'kitchen:dish-type-delete' pk=dish_type.id %}">
+                            Delete
+                          </a>
+                        {% else %}
+                          <a href="{% url 'kitchen:dish-type-delete' pk=dish_type.id %}" id="delete-dish-type-btn">
+                            Delete
+                          </a>
+                        {% endif %}
                       </td>
                     </tr>
                     </tbody>
@@ -81,5 +87,17 @@
       </div>
     </section>
   </div>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          var addDishBtn = document.getElementById("delete-dish-type-btn");
+          if (addDishBtn) {
+              addDishBtn.addEventListener("click", function (event) {
+                  event.preventDefault();
+                  alert("Action denied: You do not have the necessary permissions to delete a dish type.");
+              });
+          }
+      });
+  </script>
 
 {% endblock content %}

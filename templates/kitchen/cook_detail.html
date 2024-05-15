@@ -21,9 +21,12 @@
               {% endif %}
             </h1>
             <p class="lead text-white mt-3">
-              <a href="{% url 'kitchen:cook-delete' pk=cook.id %}" class="btn btn-danger link-to-page">
-                Delete
-              </a>
+
+              {% if is_admin %}
+                <a href="{% url 'kitchen:cook-delete' pk=cook.id %}" class="btn btn-danger link-to-page">Delete</a>
+              {% else %}
+                <a href="{% url 'kitchen:cook-delete' pk=cook.id %}" class="btn btn-danger link-to-page" id="delete-cook-btn">Delete</a>
+              {% endif %}
 
               <a href="{% url 'kitchen:cook-update' pk=cook.id %}" class="btn btn-secondary link-to-page">
                 Update years of experience
@@ -73,5 +76,17 @@
       </div>
     </section>
   </div>
+  
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          var addDishBtn = document.getElementById("delete-cook-btn");
+          if (addDishBtn) {
+              addDishBtn.addEventListener("click", function (event) {
+                  event.preventDefault();
+                  alert("Action denied: You do not have the necessary permissions to delete a cook.");
+              });
+          }
+      });
+  </script>
 
 {% endblock content %}

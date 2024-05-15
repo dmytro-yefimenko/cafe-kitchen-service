@@ -51,7 +51,7 @@
                     <tbody>
                     <tr>
                       <td>{{ cook.id }}</td>
-                      <td><a href="{{ cook.get_absolute_url }}" target=”_blank”> {{ cook.username }}
+                      <td><a href="{{ cook.get_absolute_url }}"> {{ cook.username }}
                         {% if user == cook %}
                           (Me){% endif %}</a></td>
                       <td>{{ cook.first_name }}</td>

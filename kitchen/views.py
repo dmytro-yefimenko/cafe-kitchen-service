@@ -14,7 +14,6 @@ from .forms import (
 )
 
 
-@login_required
 def index(request):
     """View function for the home page of the site."""
 
@@ -35,7 +34,7 @@ def index(request):
     return render(request, "kitchen/index.html", context=context)
 
 
-class DishTypeListView(LoginRequiredMixin, generic.ListView):
+class DishTypeListView(generic.ListView):
     model = DishType
     context_object_name = "dish_type_list"
     template_name = "kitchen/dish_type_list.html"
@@ -75,7 +74,7 @@ class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("kitchen:dish-type-list")
 
 
-class CookListView(LoginRequiredMixin, generic.ListView):
+class CookListView(generic.ListView):
     model = Cook
     paginate_by = 5
 
@@ -98,7 +97,7 @@ class CookListView(LoginRequiredMixin, generic.ListView):
         return queryset
 
 
-class CookDetailView(LoginRequiredMixin, generic.DetailView):
+class CookDetailView(generic.DetailView):
     model = Cook
     queryset = Cook.objects.all().prefetch_related("dishes__dish_type")
 
@@ -119,7 +118,7 @@ class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("kitchen:cook-list")
 
 
-class DishListView(LoginRequiredMixin, generic.ListView):
+class DishListView(generic.ListView):
     model = Dish
     paginate_by = 5
 
@@ -142,7 +141,7 @@ class DishListView(LoginRequiredMixin, generic.ListView):
         return queryset
 
 
-class DishDetailView(LoginRequiredMixin, generic.DetailView):
+class DishDetailView(generic.DetailView):
     model = Dish
 
 

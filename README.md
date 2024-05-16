@@ -5,6 +5,10 @@ A cafe management system aimed at improving communication and rules between cook
 
 ## Check it out:
 [Cafe Kitchen Service deployed to Render](https://cafe-kitchen-service.onrender.com/)
+>#### You can login using the following credentials:
+>USERNAME: demo_cook
+> 
+>PASSWORD: user12345
 
 ## Installation
 

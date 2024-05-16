@@ -141,46 +141,26 @@
 
 <!-- JavaScript validation -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.querySelector('#signupForm');
-
-        form.addEventListener('submit', function (event) {
-            const termsCheckbox = document.getElementById('termsCheckbox');
-
-            if (!termsCheckbox.checked) {
-                alert('Please agree to the Terms and Conditions');
-                event.preventDefault(); // Prevent form submission
-            }
-        });
-    });
-</script>
-
-<script>
     document.addEventListener("DOMContentLoaded", function () {
-        var addCookBtn = document.getElementById("create-cook-btn");
-        if (addCookBtn) {
-            addCookBtn.addEventListener("click", function (event) {
-                var isAdmin = {{ is_admin|yesno:"true,false" }};
-                var userId = {{ user.id }};
-                var cookId = {{ object.id|default:'null' }};  // might be undefined for create
+    var form = document.querySelector("#signupForm");
+    var isAdmin = {{ is_admin|yesno:"true,false" }};
+    var termsCheckbox = document.getElementById("termsCheckbox");
 
-                // Check if it's an update action
-                var isUpdate = {{ object|yesno:"true,false" }};
-
-                // If not admin, check if it's trying to create a new cook or update another cook
-                if (!isAdmin) {
-                    if (!isUpdate || (isUpdate && userId !== cookId)) {
-                        event.preventDefault();
-                        alert("Action denied: You do not have the necessary permissions to create or update this chef.");
-                        return;
-                    }
-                }
-
-                // Submit the form if all checks are passed
-                form.submit();
-            });
+    form.addEventListener("submit", function (event) {
+        if (!isAdmin) {
+            if (!termsCheckbox.checked) {
+                event.preventDefault();
+                alert("Please agree to the Terms and Conditions");
+                return;
+            } else {
+                // If terms are checked, but non-admin, prevent form submission
+                event.preventDefault();
+                alert("Action denied: You do not have the necessary permissions to create or update this chef.");
+                return;
+            }
         }
     });
+});
 </script>
 
 {% endblock content %}
